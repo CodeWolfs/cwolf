@@ -99,6 +99,11 @@ public enum ResultCode {
      **/
     TAG_EXIST(55004,"标签已经存在"),
 
+    /**
+     * 字典编码存在
+     */
+    DICT_EXIST(56001,"字典编码存在"),
+
 
 
 

@@ -1,11 +1,16 @@
-package com.wz.cwolf.util;
+package com.wz.cwolf.service.Impl;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.generator.FastAutoGenerator;
 import com.baomidou.mybatisplus.generator.config.OutputFile;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
+import com.wz.cwolf.service.MybatisPlusGeneratorService;
+import com.wz.cwolf.vo.MybatisGenerateVo;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
+import org.apache.ibatis.annotations.Mapper;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,23 +18,28 @@ import java.util.Collections;
 /**
  * @author WangZhe
  * @version 1.0
- * @className MybatisPlusGenerator
- * @description
- * @date 2022/8/3 17:44
+ * @className MybatisPlusGeneratorServiceImpl
+ * @description mybatis 代码生成器
+ * @date 2022/11/29 9:22
  */
-
-@Component
+@Service
 @Slf4j
-public class MybatisPlusGenerator {
-    private static final String URL = "jdbc:mysql://localhost:3306/blog";
-    private static final String USERNAME = "root";
-    private static final String PASSWORD = "root";
+public class MybatisPlusGeneratorServiceImpl implements MybatisPlusGeneratorService {
+
+    @Value("${spring.datasource.url}")
+    private String url;
+    @Value("${spring.datasource.username}")
+    private String username;
+    @Value("${spring.datasource.password}")
+    private String password;
     private static final String BASE_DIR = System.getProperty("user.dir");
 
-    public static void main(String[] args) {
-        ArrayList<String> tableName = new ArrayList<>();
-        tableName.add("china_holiday");
-        FastAutoGenerator.create(URL, USERNAME, PASSWORD)
+    public MybatisPlusGeneratorServiceImpl() {
+    }
+
+    @Override
+    public void generate(MybatisGenerateVo mybatisGenerateVo) {
+        FastAutoGenerator.create(url, username, password)
                 .globalConfig(builder -> {
                     builder.author("wz") // 设置作者
                             .enableSwagger() // 开启 swagger 模式
@@ -47,26 +57,26 @@ public class MybatisPlusGenerator {
                             .pathInfo(Collections.singletonMap(OutputFile.xml, BASE_DIR + "\\src\\main\\resources\\mapper")); // 设置mapperXml生成路径
                 })
                 .strategyConfig(builder -> {
-                    builder.addInclude(tableName) // 设置需要生成的表名
+                    builder.addInclude(mybatisGenerateVo.getTableNameList()) // 设置需要生成的表名
                             .addTablePrefix("tb_", "c_") // 设置过滤表前缀
                             .serviceBuilder()
-                            .fileOverride()
+//                            .enableFileOverride()
                             .formatServiceFileName("%sService")
                             .formatServiceImplFileName("%sServiceImpl")
                             .entityBuilder()
-                            .fileOverride()
+//                            .enableFileOverride()
                             .enableLombok()
                             .enableTableFieldAnnotation()
                             .controllerBuilder()
-                            .fileOverride()
+//                            .enableFileOverride()
                             .formatFileName("%sController")
                             .enableRestStyle()
                             .mapperBuilder()
-                            .fileOverride()
+//                            .enableFileOverride()
                             .enableBaseResultMap()
                             .superClass(BaseMapper.class)
                             .formatMapperFileName("%sMapper")
-                            .enableMapperAnnotation()
+                            .mapperAnnotation(Mapper.class)
                             .formatMapperFileName("%sMapper");
                 })
                 .templateEngine(new FreemarkerTemplateEngine()) // 使用Freemarker引擎模板，默认的是Velocity引擎模板

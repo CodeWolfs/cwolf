@@ -6,9 +6,11 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wz.cwolf.common.exception.BizException;
 import com.wz.cwolf.common.result.ResultCode;
-import com.wz.cwolf.dto.DictDto;
 import com.wz.cwolf.dto.DictInsertInDto;
+import com.wz.cwolf.dto.DictOutDto;
 import com.wz.cwolf.entity.Dict;
+import com.wz.cwolf.entity.DictItem;
+import com.wz.cwolf.mapper.DictItemMapper;
 import com.wz.cwolf.mapper.DictMapper;
 import com.wz.cwolf.service.DictService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -20,6 +22,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -38,9 +41,12 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
     @Autowired
     private DictMapper dictMapper;
 
+    @Autowired
+    private DictItemMapper dictItemMapper;
+
     @Override
-    public Page<DictDto> queryDict(DictConditionVo dictConditionVo) {
-        Page<DictDto> dictPage = new Page<>(dictConditionVo.getPageNum(),dictConditionVo.getPageSize());
+    public Page<DictOutDto> queryDict(DictConditionVo dictConditionVo) {
+        Page<DictOutDto> dictPage = new Page<>(dictConditionVo.getPageNum(),dictConditionVo.getPageSize());
         dictPage = dictMapper.queryDict(dictPage, dictConditionVo);
         return dictPage;
     }
@@ -51,7 +57,7 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
         dictQueryWrapper.lambda().eq(Dict::getDictCode,dictInsertInDto.getDictCode());
         long count = this.count(dictQueryWrapper);
         if(count > 0) {
-            throw new BizException(ResultCode.DICT_EXIST);
+            throw new BizException(ResultCode.DICT_CODE_EXIST);
         }
         Dict dict = new Dict();
         BeanUtils.copyProperties(dictInsertInDto,dict);
@@ -66,7 +72,7 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
             dictQueryWrapper.lambda().ne(Dict::getId,dictUpdateVo.getId());
             long count = this.count(dictQueryWrapper);
             if(count > 0) {
-                throw new BizException(ResultCode.DICT_EXIST);
+                throw new BizException(ResultCode.DICT_CODE_EXIST);
             }
         }
         Dict dict = new Dict();
@@ -75,12 +81,12 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void deleteDict(DictDeleteVo dictDeleteVo) {
-        List<Dict> dictList = dictDeleteVo.getIds().stream().map(id -> {
-            Dict dict = new Dict();
-            dict.setId(id);
-            return dict;
-        }).collect(Collectors.toList());
-        this.removeBatchByIds(dictList);
+        dictMapper.deleteBatchIds(dictDeleteVo.getIds());
+        //关联删除字典项
+        QueryWrapper<DictItem> dictItemQueryWrapper = new QueryWrapper<>();
+        dictItemQueryWrapper.lambda().in(DictItem::getDictId,dictDeleteVo.getIds());
+        dictItemMapper.delete(dictItemQueryWrapper);
     }
 }

@@ -14,7 +14,7 @@
         <result column="UPDATE_BY" property="updateBy" />
         <result column="UPDATE_TIME" property="updateTime" />
     </resultMap>
-    <select id="queryDict" resultType="com.wz.cwolf.dto.DictDto">
+    <select id="queryDict" resultType="com.wz.cwolf.dto.DictOutDto">
         SELECT d.*, getDictText('status',d.status) as status_text FROM dict d
         <where>
             <if test="condition.status != null and condition.status != ''">

@@ -16,5 +16,20 @@
         <result column="UPDATE_BY" property="updateBy" />
         <result column="UPDATE_TIME" property="updateTime" />
     </resultMap>
+    <select id="queryDictItems" resultType="com.wz.cwolf.dto.DictItemOutDto">
+        SELECT di.*, GETDICTTEXT("STATUS",di.status) as status_text FROM dict_item di
+        <where>
+            <if test="condition.itemValue !=null and condition.itemValue != ''">
+                and di.item_value = #{condition.itemValue}
+            </if>
+            <if test="condition.itemText !=null and condition.itemText != ''">
+                and di.item_text = #{condition.itemText}
+            </if>
+            <if test="condition.status !=null and condition.status != ''">
+                and di.status = #{condition.status}
+            </if>
+            and di.dict_id = #{condition.dictId}
+        </where>
+    </select>
 
 </mapper>

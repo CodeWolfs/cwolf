@@ -1,8 +1,8 @@
 package com.wz.cwolf.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.wz.cwolf.dto.DictDto;
 import com.wz.cwolf.dto.DictInsertInDto;
+import com.wz.cwolf.dto.DictOutDto;
 import com.wz.cwolf.entity.Dict;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.wz.cwolf.vo.DictConditionVo;
@@ -20,7 +20,7 @@ import com.wz.cwolf.vo.DictUpdateVo;
  */
 public interface DictService extends IService<Dict> {
 
-    Page<DictDto> queryDict(DictConditionVo dictConditionVo);
+    Page<DictOutDto> queryDict(DictConditionVo dictConditionVo);
 
     void insertDict(DictInsertInDto dictInsertVo);
 

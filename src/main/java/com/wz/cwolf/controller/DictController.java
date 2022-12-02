@@ -2,8 +2,8 @@ package com.wz.cwolf.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wz.cwolf.common.result.Result;
-import com.wz.cwolf.dto.DictDto;
 import com.wz.cwolf.dto.DictInsertInDto;
+import com.wz.cwolf.dto.DictOutDto;
 import com.wz.cwolf.service.DictService;
 import com.wz.cwolf.vo.DictConditionVo;
 import com.wz.cwolf.vo.DictDeleteVo;
@@ -35,7 +35,7 @@ public class DictController {
     @GetMapping("/dicts")
     @ApiOperation("字典查询")
     public Result<?> query(@Validated DictConditionVo dictConditionVo) {
-        Page<DictDto> dictDtoPage = dictService.queryDict(dictConditionVo);
+        Page<DictOutDto> dictDtoPage = dictService.queryDict(dictConditionVo);
         return Result.ok(dictDtoPage);
     }
 

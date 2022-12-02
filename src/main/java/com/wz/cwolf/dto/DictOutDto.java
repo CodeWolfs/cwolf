@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 
 @ApiModel("字典返参")
 @Data
-public class DictDto {
+public class DictOutDto {
     @ApiModelProperty("主键")
     private String id;
 
@@ -45,5 +45,5 @@ public class DictDto {
     private LocalDateTime updateTime;
 
     @ApiModelProperty("有效状态-字典值")
-    private String status_text;
+    private String statusText;
 }

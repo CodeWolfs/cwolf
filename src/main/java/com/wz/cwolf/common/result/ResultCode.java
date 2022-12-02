@@ -102,9 +102,17 @@ public enum ResultCode {
     /**
      * 字典编码存在
      */
-    DICT_EXIST(56001,"字典编码存在"),
+    DICT_CODE_EXIST(56001,"字典编码存在"),
 
+    /**
+     * 字典项编码存在
+     */
+    DICT_ITEM_VALUE_EXIST(57001,"字典项编码存在"),
 
+    /**
+     * 中国节假日期存在
+     */
+    CHINA_HOLIDAY_DATE_EXIST(58001, "节假日期存在"),
 
 
     /**

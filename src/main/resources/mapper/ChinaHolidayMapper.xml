@@ -14,5 +14,23 @@
         <result column="UPDATE_TIME" property="updateTime" />
         <result column="REMARK" property="remark" />
     </resultMap>
+    <select id="queryChinaHolidays" resultType="com.wz.cwolf.dto.ChinaHolidayQueryOutDto">
+        SELECT ch.*, GETDICTTEXT("HOLIDAY_TYPE",ch.HOLIDAY_TYPE) AS holidayTypeText, GETDICTTEXT("STATUS",ch.STATUS) AS statusText FROM china_holiday ch
+        <where>
+            <if test="condition.holidayType != null and condition.holidayType != ''">
+                AND ch.holiday_type = #{condition.holidayType}
+            </if>
+            <if test="condition.holidayDate != null and condition.holidayDate != ''">
+                AND ch.holidayDate = #{condition.holidayDate}
+            </if>
+            <if test="condition.remark != null and condition.remark != ''">
+                AND ch.remark LIKE CONCAT('%',#{condition.remark},'%')
+            </if>
+            <if test="condition.status != null and condition.status != ''">
+                AND ch.status = #{condition.status}
+            </if>
+        </where>
+        ORDER BY ch.create_time desc
+    </select>
 
 </mapper>

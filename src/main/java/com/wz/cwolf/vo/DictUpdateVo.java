@@ -25,14 +25,18 @@ public class DictUpdateVo {
     private String id;
 
     @ApiModelProperty("字典名称")
+    @NotBlank(message = "字典名称不能为空")
     private String dictName;
 
     @ApiModelProperty("字典编码")
+    @NotBlank(message = "字典编码不能为空")
     private String dictCode;
 
     @ApiModelProperty("描述")
+    @NotBlank(message = "描述不能为空")
     private String description;
 
     @ApiModelProperty("有效状态")
+    @NotBlank(message = "描述不能为空")
     private String status;
 }

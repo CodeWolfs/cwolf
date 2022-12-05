@@ -1,0 +1,6 @@
+# 需要去除.java文件中的包名
+# woodFish.jpg 如果加载不出来就使用绝对路径
+
+# 编译运行命令，有中文需要加编码参数
+# javac -encoding utf-8 **.java
+# java experiment*

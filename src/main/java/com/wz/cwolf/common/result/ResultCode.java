@@ -114,6 +114,11 @@ public enum ResultCode {
      */
     CHINA_HOLIDAY_DATE_EXIST(58001, "节假日期存在"),
 
+    /**
+     * 文件不存在
+     */
+    UPLOAD_FILE_NOT_EXIST(59001, "文件不存在"),
+
 
     /**
      * 构造结束

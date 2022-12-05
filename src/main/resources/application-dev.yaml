@@ -5,6 +5,9 @@ server:
 spring:
   application:
     name: cwolf-util
+  servlet:
+    multipart:
+      max-file-size: 5GB # 设置单个文件的大小为5GB
 
   #oracle
   datasource:
@@ -86,6 +89,6 @@ jwt:
   tokenHead: 'Bearer '  #JWT负载中拿到开头
 
 minio:
-  accessKey: admin
-  secretKey: minioadmin
-  endpoint: http://107.173.86.186:9001
+  accessKey: iIu0mFRJn3BNBy7r
+  secretKey: OJedisvuqSFabezPrsHBPVIiAStFBBPt
+  endpoint: http://127.0.0.1:9001

@@ -11,6 +11,7 @@ import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -61,13 +62,14 @@ public class LogAspect {
         for (int i = 0; i < args.length; i++) {
             if (args[i] instanceof ServletRequest
                     || args[i] instanceof ServletResponse
-                    || args[i] instanceof MultipartFile) {
+                    || args[i] instanceof MultipartFile
+                    || args[i] instanceof MultipartFile[]) {
                 continue;
             }
             arguments[i] = args[i];
         }
         // 排除字段，敏感字段或太长的字段不显示
-        String[] excludeProperties = {"password", "file"};
+        String[] excludeProperties = {"password", "file", "files"};
         PropertyPreFilters filters = new PropertyPreFilters();
         PropertyPreFilters.MySimplePropertyPreFilter excludefilter = filters.addFilter();
         excludefilter.addExcludes(excludeProperties);
@@ -81,8 +83,12 @@ public class LogAspect {
         //执行业务
         Object result = proceedingJoinPoint.proceed();
 
+        if(result instanceof ResponseEntity) {
+            return result;
+        }
+
         // 排除字段，敏感字段或太长的字段不显示
-        String[] excludeProperties = {"password", "file"};
+        String[] excludeProperties = {"password", "file", "files"};
         PropertyPreFilters filters = new PropertyPreFilters();
         PropertyPreFilters.MySimplePropertyPreFilter excludefilter = filters.addFilter();
         excludefilter.addExcludes(excludeProperties);

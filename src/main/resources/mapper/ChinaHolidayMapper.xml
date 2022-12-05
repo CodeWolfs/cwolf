@@ -21,7 +21,7 @@
                 AND ch.holiday_type = #{condition.holidayType}
             </if>
             <if test="condition.holidayDate != null and condition.holidayDate != ''">
-                AND ch.holidayDate = #{condition.holidayDate}
+                AND ch.holiday_date = #{condition.holidayDate}
             </if>
             <if test="condition.remark != null and condition.remark != ''">
                 AND ch.remark LIKE CONCAT('%',#{condition.remark},'%')

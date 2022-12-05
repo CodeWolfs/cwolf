@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wz.cwolf.mapper.FileResourceMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.wz.cwolf.entity.FileResource">
+        <id column="ID" property="id" />
+        <result column="RELATION_ID" property="relationId" />
+        <result column="RELATION_CODE" property="relationCode" />
+        <result column="BUCKET_NAME" property="bucketName" />
+        <result column="FILE_NAME" property="fileName" />
+        <result column="STATUS" property="status" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="REMARK" property="remark" />
+    </resultMap>
+
+</mapper>

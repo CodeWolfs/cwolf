@@ -48,7 +48,8 @@ public class FileResourceController {
     @ApiOperation("文件删除")
     @DeleteMapping("/delete")
     public Result<?> delete(@Validated FileResourceDeleteInVo fileResourceDeleteInVo) {
-
+        minioFileUtilService.delete(fileResourceDeleteInVo);
         return Result.ok();
     }
+    //todo 静态资源文件管理系统：上传，获取文件链接，看场景如果是前端的公共资源，放在pulibc，如果是做身份校验的资源则从系统获取，
 }

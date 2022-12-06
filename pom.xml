@@ -16,8 +16,8 @@
     <properties>
         <java.version>1.8</java.version>
         <jjwt.version>0.9.1</jjwt.version>
-        <fastjson.version>1.2.70</fastjson.version>
-        <orai18n.version>12.1.0.2.0</orai18n.version>
+        <fastjson.version>2.0.20</fastjson.version>
+        <orai18n.version>11.2.0.4</orai18n.version>
         <commons-lang3.version>3.9</commons-lang3.version>
         <minio.version>8.4.6</minio.version>
     </properties>
@@ -181,7 +181,6 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>${commons-lang3.version}</version>
         </dependency>
         <dependency>
             <groupId>io.minio</groupId>

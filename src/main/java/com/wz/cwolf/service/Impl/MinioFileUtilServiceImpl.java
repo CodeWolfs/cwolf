@@ -7,6 +7,7 @@ import com.wz.cwolf.entity.FileResource;
 import com.wz.cwolf.mapper.FileResourceMapper;
 import com.wz.cwolf.service.MinioFileUtilService;
 import com.wz.cwolf.util.MinioUtil;
+import com.wz.cwolf.vo.FileResourceDeleteInVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -56,5 +57,24 @@ public class MinioFileUtilServiceImpl extends ServiceImpl<FileResourceMapper, Fi
             throw new BizException(ResultCode.UPLOAD_FILE_NOT_EXIST);
         }
         return minioUtil.download(uploadFile.getFileName(), uploadFile.getBucketName());
+    }
+
+    @Override
+    public void delete(FileResourceDeleteInVo fileResourceDeleteInVo) {
+        if(fileResourceDeleteInVo.getDeleteFlag().equals("true")) {
+            //物理删除
+            List<FileResource> fileResources = fileResourceMapper.selectBatchIds(fileResourceDeleteInVo.getIds());
+
+
+        } else {
+            //逻辑删除
+            List<FileResource> fileResourceList = fileResourceDeleteInVo.getIds().stream().map(id -> {
+                FileResource fileResource = new FileResource();
+                fileResource.setId(id);
+                fileResource.setStatus("0");
+                return fileResource;
+            }).collect(Collectors.toList());
+            this.updateBatchById(fileResourceList);
+        }
     }
 }

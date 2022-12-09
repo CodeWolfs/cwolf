@@ -129,7 +129,7 @@ class WoodFishJPanel extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        ImageIcon icon = new ImageIcon(new File("woodFish.jpg").getAbsolutePath());//[color=red]图片路径不能固定否则无法动态修改图片[/color]
+        ImageIcon icon = new ImageIcon("D:\\git\\cwolf\\src\\main\\java\\com\\wz\\cwolf\\temp\\woodFish.jpg");//[color=red]图片路径不能固定否则无法动态修改图片[/color]
         g.drawImage(icon.getImage(), 0, 0, null);
     }
 }
@@ -233,7 +233,6 @@ class HitVipBtnListener implements ActionListener {
                         woodFishLabel.setText("功德+" + WoodFish.level * 2);
                         woodFishLabel.setVisible(true);
                         int charityUp = progressBar.getValue() + WoodFish.level * 2;
-                        System.out.println(charityUp);
                         if(WoodFish.level >= 100) {
                             progressBar.setValue(100);
                             levelUpLabel.setText("佛心四大皆空，贫僧尘念已绝");

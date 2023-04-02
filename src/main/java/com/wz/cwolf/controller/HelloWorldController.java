@@ -27,6 +27,7 @@ public class HelloWorldController {
         map.put("name","test");
         map.put("password",password);
         map.put("file",file);
+        map.put("git","测试");
         return Result.ok(map);
     }
 }
